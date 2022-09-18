@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using TestTask.Handlers;
+using TestTask.Templates;
 
 namespace TestTask
 {
@@ -9,13 +10,13 @@ namespace TestTask
     {
         public const int FILE_AMOUNT = 30;
 
-        private readonly Dictionary<string, Tuple<int?[], int[]>> userSteps;
+        private readonly Dictionary<string, StepsInfo> userSteps;
 
-        public Dictionary<string, Tuple<int?[], int[]>> UserSteps { get => userSteps; }
+        public Dictionary<string, StepsInfo> UserSteps { get => userSteps; }
 
         public DataReader()
         {
-            this.userSteps = new Dictionary<string, Tuple<int?[], int[]>>();
+            this.userSteps = new Dictionary<string, StepsInfo>();
             this.ReadAllData();
         }
 
@@ -28,10 +29,10 @@ namespace TestTask
                 {
                     if (person.Status == "Finished")
                     {
-                        if (this.userSteps.TryGetValue(person.User, out Tuple<int?[], int[]> steps))
+                        if (this.userSteps.TryGetValue(person.User, out StepsInfo steps))
                         {
-                            steps.Item1[i] = person.Steps;
-                            steps.Item2[i] = person.Rank;
+                            steps.Steps[i] = person.Steps;
+                            steps.Ranks[i] = person.Rank;
                         }
                         else
                         {
@@ -39,7 +40,7 @@ namespace TestTask
                             int[] ranks = new int[FILE_AMOUNT];
                             arrSteps[i] = person.Steps;
                             ranks[i] = person.Rank;
-                            this.userSteps.Add(person.User, new Tuple<int?[], int[]>(arrSteps, ranks));
+                            this.userSteps.Add(person.User, new StepsInfo() { Steps = arrSteps, Ranks = ranks });
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TestTask.Templates;
 
 namespace TestTask.Handlers
 {
@@ -10,7 +11,7 @@ namespace TestTask.Handlers
 
         public TableResource[] Resources { get => resources; }
 
-        public UserData(Dictionary<string, Tuple<int?[], int[]>> dictionary)
+        public UserData(Dictionary<string, StepsInfo> dictionary)
         {
             this.resources = new TableResource[dictionary.Count];
             int index = 0;
@@ -20,12 +21,12 @@ namespace TestTask.Handlers
             }
         }
 
-        private TableResource GetElement(string name, Tuple<int?[], int[]> stepRanks)
+        private TableResource GetElement(string name, StepsInfo stepRanks)
         {
-            var average = stepRanks.Item1.Where(i => i != null).Average().Value;
-            var max = stepRanks.Item1.Max().Value;
-            var min = stepRanks.Item1.Min().Value;
-            var Steps = ToDoubleArray(stepRanks.Item1);
+            var average = stepRanks.Steps.Where(i => i != null).Average().Value;
+            var max = stepRanks.Steps.Max().Value;
+            var min = stepRanks.Steps.Min().Value;
+            var Steps = ToDoubleArray(stepRanks.Steps);
             var isMore = SetIsMore(max, min, average);
             return new TableResource
             {
@@ -35,7 +36,7 @@ namespace TestTask.Handlers
                 BestResult = max,
                 WorstResult = min,
                 IsMore = isMore,
-                Ranks = stepRanks.Item2
+                Ranks = stepRanks.Ranks,
             };
         }
 
