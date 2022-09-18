@@ -1,0 +1,53 @@
+﻿<Window x:Class="TestTask.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestTask"
+        mc:Ignorable="d"
+        Title="StepMonitoring" MinHeight="400" MinWidth="400" Height="450" Width="800">
+    <Grid x:Name="MainRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.20*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="8" Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Bottom">
+            <Run FontSize="20">Список пользователей.</Run>
+        </TextBlock>
+        <TextBlock Margin="8" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Bottom">
+            <Run  FontSize="20">График по выбранному пользователю.</Run>
+        </TextBlock>
+        <DataGrid MaxWidth="522" Grid.Row="1" Grid.Column="0" x:Name="NamesTable" AutoGenerateColumns="False" CanUserResizeColumns="False" SelectedCellsChanged="SelectedCellsChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ФИ" Binding="{Binding Path=FIO}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Среднее кол-во шагов" Binding="{Binding Path=Average}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Лучший результат" Binding="{Binding Path=BestResult}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Худший результат" Binding="{Binding Path=WorstResult}" IsReadOnly="True"></DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsMore}" Value="True">
+                            <Setter Property="Background" Value="Yellow"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.7*"/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+            <WpfPlot Grid.Column="0" Grid.Row="0" x:Name="Graph"/>
+            <Button x:Name="But" Width="150" Height="30" Grid.Row="1" Content="Экспорт тек. пользователя" Click="ExportButton_Click"/>
+        </Grid>
+    </Grid>
+</Window>
