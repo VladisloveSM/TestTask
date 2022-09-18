@@ -2,6 +2,6 @@
 {
     static class GetPath
     {
-        public static string GetJsonPath(int number) => $@"TestData\day{number}.json";
+        public static string GetJsonPath(int number) => $@"..\..\TestData\day{number}.json";
     }
 }

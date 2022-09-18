@@ -91,9 +91,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Export\SaveFile.cs" />
+    <Compile Include="Export\CsvUser.cs" />
+    <Compile Include="Export\JsonUser.cs" />
+    <Compile Include="Export\XmlUser.cs" />
     <Compile Include="Handlers\DataReader.cs" />
     <Compile Include="Handlers\GetPath.cs" />
+    <Compile Include="Interfaces\IUserSave.cs" />
     <Compile Include="Templates\TableResource.cs" />
     <Compile Include="Handlers\UserData.cs" />
     <Compile Include="MainWindow.xaml.cs">

@@ -26,18 +26,21 @@ namespace TestTask
                 var result = JsonConvert.DeserializeObject<Man[]>(System.IO.File.ReadAllText(GetPath.GetJsonPath(i + 1)));
                 foreach (var person in result)
                 {
-                    if (this.userSteps.TryGetValue(person.User, out Tuple<int?[], int[]> steps))
+                    if (person.Status == "Finished")
                     {
-                        steps.Item1[i] = person.Steps;
-                        steps.Item2[i] = person.Rank;
-                    }
-                    else
-                    {
-                        int?[] arrSteps = new int?[FILE_AMOUNT];
-                        int[] ranks = new int[FILE_AMOUNT];
-                        arrSteps[i] = person.Steps;
-                        ranks[i] = person.Rank;
-                        this.userSteps.Add(person.User, new Tuple<int?[], int[]>(arrSteps, ranks));
+                        if (this.userSteps.TryGetValue(person.User, out Tuple<int?[], int[]> steps))
+                        {
+                            steps.Item1[i] = person.Steps;
+                            steps.Item2[i] = person.Rank;
+                        }
+                        else
+                        {
+                            int?[] arrSteps = new int?[FILE_AMOUNT];
+                            int[] ranks = new int[FILE_AMOUNT];
+                            arrSteps[i] = person.Steps;
+                            ranks[i] = person.Rank;
+                            this.userSteps.Add(person.User, new Tuple<int?[], int[]>(arrSteps, ranks));
+                        }
                     }
                 }
             }

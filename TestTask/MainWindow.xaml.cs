@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using TestTask.Handlers;
 using TestTask.Export;
 using Microsoft.Win32;
+using TestTask.Interfaces;
 
 namespace TestTask
 {
@@ -72,10 +73,26 @@ namespace TestTask
             dialog.AddExtension = true;
             dialog.FileName = $"PersonInfo{++fileNumber}";
             dialog.Filter = "Csv file (*.csv)|*.csv|Xml file (*.xml)|*.xml|Json file (*.json)|*.json";
+            IUserSave user = null;
             if (dialog.ShowDialog() == true)
             {
-                SaveFile.SaveUserInfo(dialog.FileName, formats[dialog.FilterIndex - 1], tableInfo.Resources[NamesTable.SelectedIndex]);
-                MessageBox.Show("Файл успешно сохранен.");
+                switch (formats[dialog.FilterIndex - 1])
+                {
+                    case "csv":
+                        user = new CsvUser();
+                        break;
+                    case "xml":
+                        user = new XmlUser();
+                        break;
+                    case "json":
+                        user = new JsonUser();
+                        break;
+                }
+                if (user != null)
+                {
+                    user.SaveUser(dialog.FileName, tableInfo.Resources[NamesTable.SelectedIndex]);
+                    MessageBox.Show("Файл успешно сохранен.");
+                }
             }
             else
             {
